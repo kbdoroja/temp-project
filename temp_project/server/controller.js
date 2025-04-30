@@ -1,17 +1,36 @@
-// Controller.js implements business logic and mongodb atlas connection
+import Product from './models/Product.js';
+import User from './models/User.js';
+import OrderTransaction from './models/OrderTransaction.js';
 
-import mongoose from 'mongoose';
+// create new product
+export async function createProduct(productData) {
+  const product = new Product(productData);
+  try {
+    const savedProduct = await product.save();
+    return savedProduct;
+  } catch (err) {
+    throw new Error('Error saving product: ' + err.message);
+  }
+}
 
-// MongoDB Atlas connection
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch((err) => console.error('Connection error', err.message));
+// new order transaction
+export async function createOrderTransaction(orderData) {
+  const order = new OrderTransaction(orderData);
+  try {
+    const savedOrder = await order.save();
+    return savedOrder;
+  } catch (err) {
+    throw new Error('Error saving order transaction: ' + err.message);
+  }
+}
 
-// INSERT HERE SCHEMA DESIGN
-
-// INSERT HERE DATA MANIPULATION
-
-export {}
+// create a new user
+export async function createUser(userData) {
+  const user = new User(userData);
+  try {
+    const savedUser = await user.save();
+    return savedUser;
+  } catch (err) {
+    throw new Error('Error saving user: ' + err.message);
+  }
+}
